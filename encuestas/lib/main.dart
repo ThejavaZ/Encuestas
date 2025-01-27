@@ -13,6 +13,7 @@ class Surveys extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Encuestas',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueGrey),
         useMaterial3: true,
