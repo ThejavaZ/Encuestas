@@ -54,12 +54,12 @@ class _HomePageState extends State<HomePage> {
         title: Text(_title),
       ),
       body: _pages[_selectedIndex],
-      floatingActionButton: 
+      floatingActionButton: _selectedIndex == 0 ?
           FloatingActionButton(  
             onPressed: () => _pageChanged(1), // Dashboard
             child: const Icon(Icons.add),
           
-      ),
+      ): null
     );
   }
 }

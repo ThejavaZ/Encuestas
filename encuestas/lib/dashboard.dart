@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class DashBoardPage extends StatelessWidget {
+
   const DashBoardPage({super.key});
 
   @override
@@ -13,6 +14,7 @@ class DashBoardPage extends StatelessWidget {
             'Dashboard',
             style: TextStyle(fontSize: 40),
           ),
+          
         ],
       ),
     );
