@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class SurveyPage extends StatelessWidget {
-  const SurveyPage({super.key});
+  
+  final Function(int) onPageChange;
+  
+  const SurveyPage({super.key, required this.onPageChange});
 
   @override
   Widget build(BuildContext context) {
@@ -13,6 +16,7 @@ class SurveyPage extends StatelessWidget {
             'Encuesta',
             style: TextStyle(fontSize: 40),
           ),
+          ElevatedButton(onPressed: () => onPageChange(2), child: const Text('Iniciar')),
         ],
       ),
     );
