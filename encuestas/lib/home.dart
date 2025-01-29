@@ -14,22 +14,30 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
+  int _destIndex = 0;
   String _title = _titles[0];
 
-  late List<Widget> _pages; 
-  
+  late List<Widget> _pages;
+
   @override
   void initState() {
     super.initState();
     _pages = <Widget>[
       DashBoardPage(),
-      SurveyPage(onPageChange: _pageChanged,),
-      QuestionsAPage(onPageChange: _pageChanged,),
-      QuestionsBPage(onPageChange: _pageChanged,),
-      SummaryPage(onPageChange: _pageChanged,),
+      SurveyPage(
+        onPageChange: _pageChanged,
+      ),
+      QuestionsAPage(
+        onPageChange: _pageChanged,
+      ),
+      QuestionsBPage(
+        onPageChange: _pageChanged,
+      ),
+      SummaryPage(
+        onPageChange: _pageChanged,
+      ),
     ];
   }
-
 
   static const List<String> _titles = <String>[
     "Inicio",
@@ -49,17 +57,25 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(_title),
-      ),
-      body: _pages[_selectedIndex],
-      floatingActionButton: _selectedIndex == 0 ?
-          FloatingActionButton(  
-            onPressed: () => _pageChanged(1), // Dashboard
-            child: const Icon(Icons.add),
-          
-      ): null
-    );
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          title: Text(_title),
+          // leading: Icon(Icons.menu), menu hamburger
+          leading: _selectedIndex != 0
+              ? IconButton(
+                  onPressed: () => {
+                        _destIndex = _selectedIndex - 1,
+                        _pageChanged(_destIndex),
+                      },
+                  icon: Icon(Icons.arrow_back))
+              : null,
+        ),
+        body: _pages[_selectedIndex],
+        floatingActionButton: _selectedIndex == 0
+            ? FloatingActionButton(
+                onPressed: () => _pageChanged(1), // Dashboard
+                child: const Icon(Icons.add),
+              )
+            : null);
   }
 }
