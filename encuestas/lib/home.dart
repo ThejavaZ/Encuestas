@@ -4,6 +4,7 @@ import 'package:encuestas/questionsa.dart';
 import 'package:encuestas/questionsb.dart';
 import 'package:encuestas/summary.dart';
 import 'package:flutter/material.dart';
+import 'package:encuestas/models/students.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,8 +15,9 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
-  int _destIndex = 0;
   String _title = _titles[0];
+
+  Student student = Student();
 
   late List<Widget> _pages;
 
@@ -24,18 +26,36 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     _pages = <Widget>[
       DashBoardPage(),
-      SurveyPage(
-        onPageChange: _pageChanged,
-      ),
+      SurveyPage(onPageChange: _pageChanged),
       QuestionsAPage(
         onPageChange: _pageChanged,
+        onSave: (data) {
+          setState(() {
+            student.update(
+              name: data['name'],
+              phone: data['phone'],
+              email: data['email'],
+              record: data['record'],
+              age: data['age'],
+            );
+          });
+        },
       ),
       QuestionsBPage(
         onPageChange: _pageChanged,
+        onSave: (data) {
+          setState(() {
+            student.update(
+              shift: data['shift'],
+              degree: data['degree'],
+              specialization: data['specialization'],
+              prom: data['prom'],
+              section: data['section'],
+            );
+          });
+        },
       ),
-      SummaryPage(
-        onPageChange: _pageChanged,
-      ),
+      SummaryPage(student: student, onPageChange: _pageChanged),
     ];
   }
 
@@ -43,7 +63,7 @@ class _HomePageState extends State<HomePage> {
     "Inicio",
     "Nueva Encuesta",
     "Preguntas",
-    "Preguntas (continuacion)",
+    "Preguntas (continuación)",
     "Resumen",
   ];
 
@@ -57,25 +77,23 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: Text(_title),
-          // leading: Icon(Icons.menu), menu hamburger
-          leading: _selectedIndex != 0
-              ? IconButton(
-                  onPressed: () => {
-                        _destIndex = _selectedIndex - 1,
-                        _pageChanged(_destIndex),
-                      },
-                  icon: Icon(Icons.arrow_back))
-              : null,
-        ),
-        body: _pages[_selectedIndex],
-        floatingActionButton: _selectedIndex == 0
-            ? FloatingActionButton(
-                onPressed: () => _pageChanged(1), // Dashboard
-                child: const Icon(Icons.add),
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(_title),
+        leading: _selectedIndex != 0
+            ? IconButton(
+                onPressed: () => _pageChanged(_selectedIndex - 1),
+                icon: const Icon(Icons.arrow_back),
               )
-            : null);
+            : null,
+      ),
+      body: _pages[_selectedIndex],
+      floatingActionButton: _selectedIndex == 0
+          ? FloatingActionButton(
+              onPressed: () => _pageChanged(1),
+              child: const Icon(Icons.add),
+            )
+          : null,
+    );
   }
 }
